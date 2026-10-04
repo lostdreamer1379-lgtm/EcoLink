@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoLink - Sustainable Tourism Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <h2>EcoLink</h2>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#" data-page="explore" class="nav-link active">Explore</a></li>
+                <li><a href="#" data-page="ecostay" class="nav-link">EcoStay</a></li>
+                <li><a href="#" data-page="ecobite" class="nav-link">EcoBite</a></li>
+                <li><a href="#" data-page="handicrafts" class="nav-link">Local Handicrafts</a></li>
+                <li><a href="#" data-page="activities" class="nav-link">EcoActivities</a></li>
+                <li><a href="#" data-page="moodtravel" class="nav-link">MoodTravel</a></li>
+                <li><a href="#" data-page="profile" class="nav-link">Profile</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Explore Page (Home) -->
+        <section id="explore" class="page active">
+            <div class="container">
+                <!-- Hero Section -->
+                <div class="hero-section">
+                    <h1>Discover Sustainable Travel Experiences</h1>
+                    <p>Book eco-friendly stays, taste local cuisines, and explore responsibly</p>
+                    
+                    <div class="booking-form">
+                        <div class="form-group">
+                            <input type="text" id="location" placeholder="Enter destination" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="date" id="checkin" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <input type="date" id="checkout" class="form-control">
+                        </div>
+                        <button class="btn btn--primary" onclick="searchStays()">Search Eco-Stays</button>
+                    </div>
+                </div>
+
+                <!-- Current Bookings -->
+                <div class="section-card">
+                    <h3>Current Bookings</h3>
+                    <div id="current-bookings" class="bookings-grid">
+                        <p class="no-bookings">No active bookings</p>
+                    </div>
+                </div>
+
+                <!-- Packages Section -->
+                <div class="section-card">
+                    <h3>Curated Packages</h3>
+                    <div id="packages-grid" class="packages-grid"></div>
+                </div>
+
+                <!-- EcoWallet -->
+                <div class="ecowallet-card">
+                    <div class="wallet-header" onclick="toggleWallet()">
+                        <h3>EcoWallet</h3>
+                        <div class="coins-display">
+                            <span class="coin-icon">🪙</span>
+                            <span id="green-coins">1250</span> Green Coins
+                        </div>
+                        <span class="expand-icon">▼</span>
+                    </div>
+                    <div class="wallet-content" id="wallet-content">
+                        <div class="wallet-section">
+                            <h4>Redeem Your Coins</h4>
+                            <div class="redeem-items">
+                                <div class="redeem-item">
+                                    <span>10% Discount Coupon</span>
+                                    <button class="btn btn--sm btn--outline" onclick="redeemItem('discount10', 100)">100 coins</button>
+                                </div>
+                                <div class="redeem-item">
+                                    <span>Eco Tote Bag</span>
+                                    <button class="btn btn--sm btn--outline" onclick="redeemItem('totebag', 250)">250 coins</button>
+                                </div>
+                                <div class="redeem-item">
+                                    <span>Free Activity Pass</span>
+                                    <button class="btn btn--sm btn--outline" onclick="redeemItem('activity', 500)">500 coins</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wallet-section">
+                            <h4>Earn More Coins</h4>
+                            <ul class="earn-list">
+                                <li>Complete activities: 50-200 coins</li>
+                                <li>Write reviews: 25 coins</li>
+                                <li>Refer friends: 100 coins</li>
+                                <li>Choose eco-friendly options: 30 coins</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EcoStay Page -->
+        <section id="ecostay" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Eco-Friendly Accommodations</h1>
+                    <div class="filters">
+                        <select id="state-filter-stay" class="form-control">
+                            <option value="">Select State</option>
+                        </select>
+                        <input type="text" id="search-stay" placeholder="Search eco-stays..." class="form-control">
+                    </div>
+                </div>
+                <div id="ecostay-grid" class="stays-grid"></div>
+            </div>
+        </section>
+
+        <!-- EcoBite Page -->
+        <section id="ecobite" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Regional Cuisines</h1>
+                    <p>Explore the diverse culinary heritage of India through our state-wise food guide</p>
+                </div>
+                <div id="ecobite-grid" class="states-food-grid"></div>
+            </div>
+        </section>
+
+        <!-- Local Handicrafts Page -->
+        <section id="handicrafts" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Local Handicrafts</h1>
+                    <div class="filters">
+                        <select id="state-filter-craft" class="form-control">
+                            <option value="">Select State</option>
+                        </select>
+                        <input type="text" id="search-craft" placeholder="Search handicrafts..." class="form-control">
+                    </div>
+                </div>
+                <div id="handicrafts-grid" class="crafts-grid"></div>
+            </div>
+        </section>
+
+        <!-- EcoActivities Page -->
+        <section id="activities" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>Eco Activities</h1>
+                    <div class="filters">
+                        <select id="activity-filter" class="form-control">
+                            <option value="">All Activities</option>
+                            <option value="Adventure">Adventure</option>
+                            <option value="Nature">Nature</option>
+                            <option value="Sustainability">Sustainability</option>
+                            <option value="Wellness">Wellness</option>
+                            <option value="Culture">Cultural</option>
+                        </select>
+                        <input type="text" id="search-activity" placeholder="Search activities..." class="form-control">
+                    </div>
+                </div>
+                <div id="activities-grid" class="activities-grid"></div>
+            </div>
+        </section>
+
+        <!-- MoodTravel Page - ENHANCED -->
+        <section id="moodtravel" class="page">
+            <div class="container">
+                <div class="page-header">
+                    <h1>MoodTravel</h1>
+                    <p>Discover your perfect destination based on your personality and preferences</p>
+                </div>
+                
+                <!-- Enhanced Particle Background -->
+                <div class="mood-particles">
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                </div>
+                
+                <!-- Enhanced Personality Assessment -->
+                <div class="mood-assessment" id="mood-assessment">
+                    <h2>Personality Assessment</h2>
+                    <p>Answer these three questions to discover your ideal eco-destination</p>
+                    
+                    <!-- Question 1: Type of Experience -->
+                    <div class="question-container" id="question-1">
+                        <div class="question-header">
+                            <h3 class="question-title">What type of experience calls to your soul?</h3>
+                            <div class="question-number">1/3</div>
+                        </div>
+                        <div class="question-bars">
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(1, 'adventure')">
+                                <span class="question-icon">🏔️</span>
+                                <span class="question-text">Adventure</span>
+                                <span class="question-description">Thrilling activities and exploration</span>
+                            </div>
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(1, 'relaxation')">
+                                <span class="question-icon">🧘</span>
+                                <span class="question-text">Relaxation</span>
+                                <span class="question-description">Peace, wellness, and rejuvenation</span>
+                            </div>
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(1, 'culture')">
+                                <span class="question-icon">🎭</span>
+                                <span class="question-text">Culture</span>
+                                <span class="question-description">Heritage, art, and traditions</span>
+                            </div>
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(1, 'nature')">
+                                <span class="question-icon">🌿</span>
+                                <span class="question-text">Nature</span>
+                                <span class="question-description">Wildlife, forests, and natural beauty</span>
+                            </div>
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(1, 'spirituality')">
+                                <span class="question-icon">🕉️</span>
+                                <span class="question-text">Spirituality</span>
+                                <span class="question-description">Inner peace and sacred experiences</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 2: Connection Style -->
+                    <div class="question-container" id="question-2" style="display: none;">
+                        <div class="question-header">
+                            <h3 class="question-title">How do you prefer to connect with a destination?</h3>
+                            <div class="question-number">2/3</div>
+                        </div>
+                        <div class="question-bars">
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(2, 'food')">
+                                <span class="question-icon">🍽️</span>
+                                <span class="question-text">Through Food</span>
+                                <span class="question-description">Culinary experiences and local flavors</span>
+                            </div>
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(2, 'people')">
+                                <span class="question-icon">👥</span>
+                                <span class="question-text">Through People</span>
+                                <span class="question-description">Local communities and interactions</span>
+                            </div>
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(2, 'landscapes')">
+                                <span class="question-icon">🏞️</span>
+                                <span class="question-text">Through Landscapes</span>
+                                <span class="question-description">Natural scenery and outdoor spaces</span>
+                            </div>
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(2, 'history')">
+                                <span class="question-icon">🏛️</span>
+                                <span class="question-text">Through History</span>
+                                <span class="question-description">Historical sites and ancient stories</span>
+                            </div>
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(2, 'activities')">
+                                <span class="question-icon">🎯</span>
+                                <span class="question-text">Through Activities</span>
+                                <span class="question-description">Hands-on experiences and adventures</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 3: Travel Pace -->
+                    <div class="question-container" id="question-3" style="display: none;">
+                        <div class="question-header">
+                            <h3 class="question-title">What pace of travel energizes you?</h3>
+                            <div class="question-number">3/3</div>
+                        </div>
+                        <div class="question-bars">
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(3, 'fast-paced')">
+                                <span class="question-icon">⚡</span>
+                                <span class="question-text">Fast-paced exploration</span>
+                                <span class="question-description">Multiple destinations, busy itinerary</span>
+                            </div>
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(3, 'slow-immersion')">
+                                <span class="question-icon">🐌</span>
+                                <span class="question-text">Slow immersion</span>
+                                <span class="question-description">Deep connection with one place</span>
+                            </div>
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(3, 'balanced')">
+                                <span class="question-icon">⚖️</span>
+                                <span class="question-text">Balanced discovery</span>
+                                <span class="question-description">Mix of planned and free time</span>
+                            </div>
+                            <div class="question-bar glowing-premium" onclick="selectQuestionOption(3, 'spontaneous')">
+                                <span class="question-icon">🎲</span>
+                                <span class="question-text">Spontaneous wandering</span>
+                                <span class="question-description">Go with the flow, no strict plans</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Enhanced Results Section -->
+                <div class="mood-results" id="mood-results" style="display: none;">
+                    <h2>Your Personalized Travel Experience</h2>
+                    
+                    <!-- Perfect Destination Section -->
+                    <div class="destination-card premium-card">
+                        <div class="destination-header">
+                            <h3 id="recommended-state">Kerala</h3>
+                            <p id="destination-description">Based on your unique personality, Kerala offers the perfect blend of experiences tailored just for you.</p>
+                        </div>
+                        <div class="destination-actions">
+                            <button class="btn btn--primary btn--lg" onclick="exploreLocation()">Explore Location</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Culinary Experience Section - Enhanced Expandable -->
+                    <div class="culinary-experience-card premium-card">
+                        <div class="culinary-header" onclick="toggleCulinaryCard()">
+                            <h3>Your Culinary Journey</h3>
+                            <div class="expand-indicator">
+                                <span class="expand-arrow">▼</span>
+                            </div>
+                        </div>
+                        <div class="culinary-content">
+                            <div class="taste-profile-card">
+                                <h4>Taste Profile</h4>
+                                <p id="taste-profile-display">Known for coconut-based curries, aromatic spices, and fresh seafood, balancing sweet coconut milk with tangy tamarind and fiery chilies</p>
+                            </div>
+                        </div>
+                        <div class="culinary-expanded" id="culinary-expanded">
+                            <div class="culinary-foods">
+                                <h4>Regional Specialties</h4>
+                                <div id="culinary-foods-list"></div>
+                            </div>
+                            <div class="culinary-actions">
+                                <button class="btn btn--primary" onclick="viewMoreCulinary()">View More</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Complete Package Section -->
+                    <div class="package-section premium-card">
+                        <h3>Complete Package</h3>
+                        <div class="package-options">
+                            <div class="package-option">
+                                <h4 id="package-1-name">Kerala Backwater Adventure</h4>
+                                <p id="package-1-description">3 days of eco-friendly experiences</p>
+                                <div class="package-price">₹<span id="package-1-price">15,000</span></div>
+                                <div class="package-actions">
+                                    
+                                    <button class="btn btn--secondary" onclick="addPackageToCart(1)">Add to Cart</button>
+                                </div>
+                            </div>
+                            <div class="package-option">
+                                <h4 id="package-2-name">Wellness Retreat</h4>
+                                <p id="package-2-description">5 days of ayurvedic treatments</p>
+                                <div class="package-price">₹<span id="package-2-price">25,000</span></div>
+                                <div class="package-actions">
+                                    
+                                    <button class="btn btn--secondary" onclick="addPackageToCart(2)">Add to Cart</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recommended Activity Section -->
+                    <div class="activity-section premium-card">
+                        <h3>Recommended Activity</h3>
+                        <div class="recommended-activity">
+                            <h4 id="activity-name">Jungle Trekking</h4>
+                            <p id="activity-description">Guided forest adventure with wildlife spotting</p>
+                            <div class="activity-details">
+                                <span class="activity-duration" id="activity-duration">6 hours</span>
+                                <span class="activity-price">₹<span id="activity-price">850</span></span>
+                                <span class="activity-coins">+<span id="activity-coins">25</span> coins</span>
+                            </div>
+                            <div class="activity-actions">
+                                
+                                <button class="btn btn--secondary" onclick="addActivityToCartFromMood()">Add to Cart</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Page -->
+        <section id="profile" class="page">
+            <div class="container">
+                <div class="profile-sections">
+                    <!-- User Info -->
+                    <div class="section-card">
+                        <h3>Profile Information</h3>
+                        <div class="profile-info">
+                            <div class="profile-pic">
+                                <img id="profile-image" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" alt="Profile">
+                                <button class="btn btn--sm btn--outline" onclick="changeProfilePic()">Change</button>
+                            </div>
+                            <div class="profile-details">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" id="user-name" value="Eco Traveler" class="form-control">
+                                </div>
+                                <button class="btn btn--primary" onclick="updateProfile()">Update Profile</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Theme Settings -->
+                    <div class="section-card">
+                        <h3>Theme Settings</h3>
+                        <div class="theme-settings">
+                            <div class="theme-toggle">
+                                <label class="toggle-label">
+                                    <span class="toggle-text">Dark Mode</span>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="theme-toggle" checked>
+                                        <span class="toggle-slider"></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cart Section -->
+                    <div class="section-card">
+                        <h3>Shopping Cart</h3>
+                        <div id="cart-items" class="cart-items">
+                            <p class="empty-cart">Your cart is empty</p>
+                        </div>
+                        <div class="cart-total" id="cart-total" style="display: none;">
+                            <div class="total-amount">
+                                <strong>Total: ₹<span id="total-amount">0</span></strong>
+                            </div>
+                            <button class="btn btn--primary btn--full-width" onclick="checkout()">Proceed to Checkout</button>
+                        </div>
+                    </div>
+
+                    <!-- Order History -->
+                    <div class="section-card">
+                        <h3>Order History</h3>
+                        <div id="order-history" class="order-history">
+                            <p class="no-orders">No previous orders</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Enhanced AI Chatbot -->
+    <div class="chatbot-widget">
+        <div class="chatbot-toggle" onclick="toggleChatbot()">
+            <span>🤖</span>
+        </div>
+        <div class="chatbot-container" id="chatbot-container">
+            <div class="chatbot-header">
+                <h4>EcoLink Assistant</h4>
+                <button onclick="toggleChatbot()">×</button>
+            </div>
+            <div class="chatbot-messages" id="chatbot-messages">
+                <div class="bot-message">Hello! I can help you find eco-stays, regional cuisines, handicrafts, or activities. What are you looking for?</div>
+            </div>
+            <div class="chatbot-input">
+                <input type="text" id="chat-input" placeholder="Ask me anything..." class="form-control">
+                <button onclick="sendMessage()" class="btn btn--primary btn--sm">Send</button>
+                <button id="mic-button" class="mic-button" title="Voice input">
+                    <span class="mic-icon">🎤</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal" id="checkout-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Checkout</h2>
+                <span class="close" onclick="closeCheckout()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="checkout-summary" id="checkout-summary"></div>
+                
+                <!-- Green Coins Section -->
+                <div class="green-coins-section">
+                    <h3>Use Green Coins</h3>
+                    <div class="green-coins-info">
+                        <div class="coins-balance">
+                            <span>Available: <strong id="checkout-coins-balance">1250</strong> coins</span>
+                            <span class="coins-value">(1 coin = ₹1 discount)</span>
+                        </div>
+                        <div class="form-group">
+                            <label>Green Coins to Use</label>
+                            <input type="number" id="coins-to-use" min="0" placeholder="Enter coins to use" class="form-control">
+                        </div>
+                        <button class="btn btn--secondary btn--sm" onclick="applyGreenCoins()">Apply Discount</button>
+                    </div>
+                    <div id="discount-display" class="discount-display" style="display: none;">
+                        <div class="discount-info">
+                            <span>Green Coins Used: <span id="coins-used">0</span> coins</span>
+                            <span>Discount Applied: ₹<span id="discount-amount">0</span></span>
+                        </div>
+                        <button class="btn btn--sm btn--outline" onclick="removeDiscount()">Remove</button>
+                    </div>
+                </div>
+                
+                <div class="payment-form">
+                    <h3>Payment Details</h3>
+                    <div class="form-group">
+                        <label>Card Number</label>
+                        <input type="text" id="card-number" placeholder="1234 5678 9012 3456" class="form-control">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Expiry Date</label>
+                            <input type="text" id="expiry" placeholder="MM/YY" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>CVV</label>
+                            <input type="text" id="cvv" placeholder="123" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Cardholder Name</label>
+                        <input type="text" id="cardholder" placeholder="John Doe" class="form-control">
+                    </div>
+                    <button class="btn btn--primary btn--full-width" onclick="processPayment()">Complete Payment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Popup -->
+    <div id="confirmation-popup" class="confirmation-popup">
+        <div class="popup-content">
+            <span class="popup-icon">✅</span>
+            <span class="popup-message">Action completed successfully!</span>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
